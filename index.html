@@ -314,10 +314,9 @@ You must replace 'token key' <code>"Authorization: Bearer 'token key' "</code> w
 <p><code>GET: Get csv list of all users (for admin), users of your department for head and your data only for regular user</code>
 <aside>curl -X GET  http://localhost:5829/api/downloadcsv --header &quot;Authorization: Bearer &#39;your token&#39; &quot;</aside></p>
 <h1 id='ngpt-data'>NGPT data</h1>
-<p>Routes of ground transportation</p>
+<p>Routes of ground transportation service</p>
 
-<p>Сервис по выдаче рейсов НГПТ
-<code>https://niikeeper.com/msAPI/v1.0.0/ngpt/{geo, topo}/{busLanes, trolleybusLanes,tramLanes}</code></p>
+<p><code>https://niikeeper.com/msAPI/v1.0.0/ngpt/{geo, topo}/{busLanes, trolleybusLanes,tramLanes}</code></p>
 
 <aside>curl -X GET  https://niikeeper.com/msAPI/v1.0.0/ngpt/geo/busLanes --header "Authorization: Bearer 'your token' "</aside>
 <h2 id='geojsons'>geojsons</h2><pre class="highlight go"><code><span class="n">geojsons</span><span class="o">.</span><span class="n">GET</span><span class="p">(</span><span class="s">"/busLanes"</span><span class="p">,</span><span class="x"> </span><span class="n">jwtAuth</span><span class="o">.</span><span class="n">MiddlewareFunc</span><span class="p">(),</span><span class="x"> </span><span class="n">auth</span><span class="o">.</span><span class="n">CasbinCheckerMiddleware</span><span class="p">(</span><span class="n">e</span><span class="p">),</span><span class="x"> </span><span class="n">general</span><span class="o">.</span><span class="n">GetNgpt</span><span class="p">(</span><span class="s">"А"</span><span class="p">,</span><span class="x"> </span><span class="m">0</span><span class="p">))</span><span class="x">
@@ -325,7 +324,7 @@ You must replace 'token key' <code>"Authorization: Bearer 'token key' "</code> w
 </span><span class="n">geojsons</span><span class="o">.</span><span class="n">GET</span><span class="p">(</span><span class="s">"/tramLanes"</span><span class="p">,</span><span class="x"> </span><span class="n">jwtAuth</span><span class="o">.</span><span class="n">MiddlewareFunc</span><span class="p">(),</span><span class="x"> </span><span class="n">auth</span><span class="o">.</span><span class="n">CasbinCheckerMiddleware</span><span class="p">(</span><span class="n">e</span><span class="p">),</span><span class="x"> </span><span class="n">general</span><span class="o">.</span><span class="n">GetNgpt</span><span class="p">(</span><span class="s">"Тм"</span><span class="p">,</span><span class="x"> </span><span class="m">0</span><span class="p">))</span><span class="x">
 </span><span class="n">geojsons</span><span class="o">.</span><span class="n">GET</span><span class="p">(</span><span class="s">"/stops"</span><span class="p">,</span><span class="x"> </span><span class="n">jwtAuth</span><span class="o">.</span><span class="n">MiddlewareFunc</span><span class="p">(),</span><span class="x"> </span><span class="n">auth</span><span class="o">.</span><span class="n">CasbinCheckerMiddleware</span><span class="p">(</span><span class="n">e</span><span class="p">),</span><span class="x"> </span><span class="n">general</span><span class="o">.</span><span class="n">GetNgptStops</span><span class="p">(</span><span class="m">0</span><span class="p">))</span><span class="x">
 </span></code></pre>
-<p>Результат успешного запроса:</p>
+<p>Successful query example:</p>
 
 <p><code>
 {
@@ -358,7 +357,7 @@ You must replace 'token key' <code>"Authorization: Bearer 'token key' "</code> w
 </span><span class="n">topojsons</span><span class="o">.</span><span class="n">GET</span><span class="p">(</span><span class="s">"/tramLanes"</span><span class="p">,</span><span class="x"> </span><span class="n">jwtAuth</span><span class="o">.</span><span class="n">MiddlewareFunc</span><span class="p">(),</span><span class="x"> </span><span class="n">auth</span><span class="o">.</span><span class="n">CasbinCheckerMiddleware</span><span class="p">(</span><span class="n">e</span><span class="p">),</span><span class="x"> </span><span class="n">general</span><span class="o">.</span><span class="n">GetNgpt</span><span class="p">(</span><span class="s">"Тм"</span><span class="p">,</span><span class="x"> </span><span class="m">1</span><span class="p">))</span><span class="x">
 </span><span class="n">topojsons</span><span class="o">.</span><span class="n">GET</span><span class="p">(</span><span class="s">"/stops"</span><span class="p">,</span><span class="x"> </span><span class="n">jwtAuth</span><span class="o">.</span><span class="n">MiddlewareFunc</span><span class="p">(),</span><span class="x"> </span><span class="n">auth</span><span class="o">.</span><span class="n">CasbinCheckerMiddleware</span><span class="p">(</span><span class="n">e</span><span class="p">),</span><span class="x"> </span><span class="n">general</span><span class="o">.</span><span class="n">GetNgptStops</span><span class="p">(</span><span class="m">1</span><span class="p">))</span><span class="x">
 </span></code></pre>
-<p>Результат успешного запроса:</p>
+<p>Successful query example:</p>
 
 <p><code>{
   «type»: «FeatureCollection»
