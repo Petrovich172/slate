@@ -99,9 +99,8 @@ You must replace 'token key' <code>"Authorization: Bearer 'token key' "</code> w
 
 # NGPT data
 
-Routes of ground transportation
+Routes of ground transportation service
 
-Сервис по выдаче рейсов НГПТ
 `https://niikeeper.com/msAPI/v1.0.0/ngpt/{geo, topo}/{busLanes, trolleybusLanes,tramLanes}`
 
 <aside>curl -X GET  https://niikeeper.com/msAPI/v1.0.0/ngpt/geo/busLanes --header "Authorization: Bearer 'your token' "</aside>
@@ -114,7 +113,7 @@ geojsons.GET("/trolleybusLanes", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMid
 geojsons.GET("/tramLanes", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgpt("Тм", 0))
 geojsons.GET("/stops", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgptStops(0))
 ```
-Результат успешного запроса:
+Successful query example:
 
 `
 {
@@ -151,7 +150,7 @@ topojsons.GET("/tramLanes", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddlewa
 topojsons.GET("/stops", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgptStops(1))
 ```
 
-Результат успешного запроса:
+Successful query example:
 
 `{
   «type»: «FeatureCollection»
