@@ -2,10 +2,7 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+  - Go
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -19,221 +16,165 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Ais_ms docs API! You can use our API to access endpoints, which can get information on various services.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
 # Authentication
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+In a case, your user is already registered you have to get your token key. Otherwise you have to register first.
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace 'token key' <code>"Authorization: Bearer 'token key' "</code> with your personal token key.
 </aside>
 
-# Kittens
+## Get token
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+```golang
+(*gr).POST("/doauth", jwtAuth.LoginHandler)
 ```
 
-```python
-import kittn
+` POST: Get token key for existing user "mortal" `
+<aside>curl -X POST -d '{"username":"mortal", "password":"mortal"}' / 
+-H "Content-Type: application/json" http://localhost:5829/api/doauth'</aside>
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+## Register new user
+
+```golang
+(*gr).POST("/registerNewUser", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), rolemodel.CreateUser())
 ```
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+` POST: Register new user "login11" with password "parol", role "2", department "id" and name "Maga122" `
+<aside>curl -X POST http://localhost:5829/api/registerNewUser --header / 
+"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzgwNDg4NjgsImxvZ2luIjoib2hteWhlYWQiLCJvcmlnX2lhdCI6MTUzNzk2MjQ2OCwicm9sZSI6MiwidXNlcl9pZCI6IjgwZTg0YzljLWU0MzAtNDM5MS1hNzM0LTkyYWUwYmMwNzFlMiJ9.bZ6O3O-YavOXRiiGzdyi8D5zLGzRvKEbFHJFpu1pcAg" / 
+-d '{"NewUserName":"login11","NewUserPassword":"parol","NewUserRole":2,"Access":"Authorization","DepID":"e5d66151-5176-4abc-bf89-9756f303a521","Name":"Maga122"}'</aside>
+
+## Edit user
+
+```golang
+(*gr).POST("/editUser", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), rolemodel.EditUser())
 ```
 
-```javascript
-const kittn = require('kittn');
+` POST: Edit user "login" (old login), set new login "login1", new password "paroll", new role "2", department "id" and name "Maga" `
+<aside>curl -X POST http://localhost:5829/api/editUser --header /
+ "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXBfaWQiOiJlNWQ2NjE1MS01MTc2LTRhYmMtYmY4OS05NzU2ZjMwM2E1MjEiLCJleHAiOjE1Mzg0NjY4NDksImxvZ2luIjoib2hteWhlYWQiLCJvcmlnX2lhdCI6MTUzODM4MDQ0OSwicm9sZSI6MiwidXNlcl9pZCI6IjgwZTg0YzljLWU0MzAtNDM5MS1hNzM0LTkyYWUwYmMwNzFlMiJ9.Hvp2YrKCTDjJnhfUD5TfebIDp_fk8wD5cz1PeXEWhA4" /
+ -d '{"old_username":"login","NewUserName":"login1","NewUserPassword":"paroll","NewUserRole":2,"Access":"Authorization","DepID":"e5d66151-5176-4abc-bf89-9756f303a521","Name":"Maga"}'</aside>
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+## Check your role
+
+```golang
+(*gr).GET("/authrole", jwtAuth.MiddlewareFunc(), auth.GetRole)
 ```
 
-> The above command returns JSON structured like this:
+` GET: Check your auth role `
+<aside>curl -X GET  http://localhost:5829/api/authrole --header "Authorization: Bearer 'your token' "</aside>
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+## Refresh token
+
+```golang
+(*gr).GET("/refreshtoken", jwtAuth.MiddlewareFunc(), jwtAuth.RefreshHandler)
 ```
 
-This endpoint retrieves all kittens.
+` GET: Refresh your token `
+<aside>curl -X GET  http://localhost:5829/api/refreshtoken --header "Authorization: Bearer 'your token' "</aside>
 
-### HTTP Request
+## Get list of all users
 
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+```golang
+(*gr).POST("/getUsers", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), rolemodel.GetUsers())
 ```
 
-```python
-import kittn
+` POST: Get list of all users (for admin), users of your department for head and your data only for regular user `
+<aside>curl -d "content-Type: application/json" -X POST http://localhost:5829/api/getUsers /
+--header "Authorization: Bearer 'your token'"</aside>
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+```golang
+(*gr).GET("/downloadcsv", jwtAuth.MiddlewareFunc(), utils.GetUsersCSV)
 ```
 
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+` GET: Get csv list of all users (for admin), users of your department for head and your data only for regular user `
+<aside>curl -X GET  http://localhost:5829/api/downloadcsv --header "Authorization: Bearer 'your token' "</aside>
+
+# NGPT data
+
+Routes of ground transportation
+
+Сервис по выдаче рейсов НГПТ
+`https://niikeeper.com/msAPI/v1.0.0/ngpt/{geo, topo}/{busLanes, trolleybusLanes,tramLanes}`
+
+<aside>curl -X GET  https://niikeeper.com/msAPI/v1.0.0/ngpt/geo/busLanes --header "Authorization: Bearer 'your token' "</aside>
+
+## geojsons
+
+```golang
+geojsons.GET("/busLanes", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgpt("А", 0))
+geojsons.GET("/trolleybusLanes", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgpt("Тб", 0))
+geojsons.GET("/tramLanes", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgpt("Тм", 0))
+geojsons.GET("/stops", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgptStops(0))
 ```
+Результат успешного запроса:
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
+`
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  «type»: «FeatureCollection»
+  «features»: [
+    {
+      «id»: Идентификатор рейса НГПТ (integer),
+      «type»: «Feature»,
+      «geometry»: {
+        «type»: «MultiLineString»,
+        «coordinates»: Трёхмерный массив ([][][]float64)
+      },
+      «properties»: {
+        «routeName»: название маршрута НГПТ,
+        «routeDirection»: направление маршрута (0 — прямое, 1 — обратное),
+        «routeFullname»: полное название маршрута НГПТ,
+        «transportType»: тип транспортного средства на данном маршруте,
+        «typeTS»: класс транспортного средства,
+        «releaseTs»: выпуск ТС,
+        «isMain»: является ли рейс основным для маршрута (1 — да),
+        «agencyName»: наименование перевозчика,
+        «stops»: Перечень остановок НГПТ (массив integer) для данного рейса.
+      }
+    }
+  ]
 }
+`
+## topojsons
+
+```golang
+topojsons.GET("/busLanes", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgpt("А", 1))
+topojsons.GET("/trolleybusLanes", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgpt("Тб", 1))
+topojsons.GET("/tramLanes", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgpt("Тм", 1))
+topojsons.GET("/stops", jwtAuth.MiddlewareFunc(), auth.CasbinCheckerMiddleware(e), general.GetNgptStops(1))
 ```
 
-This endpoint retrieves a specific kitten.
+Результат успешного запроса:
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
+`{
+  «type»: «FeatureCollection»
+  «features»: [
+    {
+      «id»: Идентификатор рейса НГПТ (integer),
+      «type»: «Feature»,
+      «geometry»: {
+        «type»: «MultiLineString»,
+        «coordinates»: Трёхмерный массив ([][][]float64)
+      },
+      «properties»: {
+        «routeName»: название маршрута НГПТ,
+        «routeDirection»: направление маршрута (0 — прямое, 1 — обратное),
+        «routeFullname»: полное название маршрута НГПТ,
+        «transportType»: тип транспортного средства на данном маршруте,
+        «typeTS»: класс транспортного средства,
+        «releaseTs»: выпуск ТС,
+        «isMain»: является ли рейс основным для маршрута (1 — да),
+        «agencyName»: наименование перевозчика,
+        «stops»: Перечень остановок НГПТ (массив integer) для данного рейса.
+      }
+    }
+  ]
 }
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+`
